@@ -32,14 +32,26 @@ jobs:
       run: |
         npx wait-on http://localhost:8080/ --timeout 120000
 
-    - name: Install and Run k6 Load Test
+    # --- بخش جدید: کش کردن k6 برای جلوگیری از نصب مجدد ---
+    - name: Cache k6 binary
+      id: cache-k6
+      uses: actions/cache@v4
+      with:
+        path: /usr/bin/k6
+        key: k6-v0.49.0
+
+    - name: Install k6 (if not cached)
+      if: steps.cache-k6.outputs.cache-hit != 'true'
       run: |
         sudo gpg -k
         sudo gpg --no-default-keyring --keyring /usr/share/keyrings/k6-archive-keyring.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
         echo "deb [signed-by=/usr/share/keyrings/k6-archive-keyring.gpg] https://dl.k6.io/deb stable main" | sudo tee /etc/apt/sources.list.d/k6.list
         sudo apt-get update
         sudo apt-get install -y k6
-        k6 run load-test.js
+
+    - name: Run k6 Load Test
+      run: k6 run load-test.js
+    # --------------------------------------------------
 
     - name: Stop Spring Boot
       if: always()
