@@ -36,6 +36,7 @@ jobs:
       uses: grafana/k6-action@v0.3.0
       with:
         filename: load-test.js
+        flags: --network host
 
     - name: Stop Spring Boot
       if: always()
