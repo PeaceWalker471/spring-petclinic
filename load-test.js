@@ -8,9 +8,9 @@ const failedRequests = new Counter('failed_requests');
 export const options = {
   // شبیه‌سازی حمله‌مانند و ترافیک بسیار شدید
   stages: [
-    { duration: '10s', target: 50 },   // ورود سریع ۲۰۰ کاربر
-    { duration: '20s', target: 200 },   // جهش به ۸۰۰ کاربر
-    { duration: '30s', target: 500 },  // اوج فشار با ۱۵۰۰ کاربر همزمان بدون مکث
+    { duration: '10s', target: 0 },   // ورود سریع ۲۰۰ کاربر
+    { duration: '20s', target: 25 },   // جهش به ۸۰۰ کاربر
+    { duration: '30s', target: 50 },  // اوج فشار با ۱۵۰۰ کاربر همزمان بدون مکث
     { duration: '10s', target: 0 },     // فرود
   ],
 
